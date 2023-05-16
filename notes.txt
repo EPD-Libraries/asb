@@ -1,0 +1,7 @@
+0x00 - Magic
+0x04 - Unknown; Always 0x17040000
+0x08 - null padding?
+0x0C - Unkown
+File header bytes match up through 0x0B
+End of file appears to contain text array of entries in file separated by a null byte with 1 byte padding at the end
+address of entry array at 0x24; 4 bytes

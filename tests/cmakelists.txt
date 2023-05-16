@@ -1,0 +1,7 @@
+add_executable(asb_test
+    ./src/include/utils/file_util.h
+    ./src/main.cpp
+)
+
+target_include_directories(asb_test PRIVATE ./src/include)
+target_link_libraries(asb_test PUBLIC asb)
