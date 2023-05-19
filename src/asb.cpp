@@ -29,7 +29,7 @@ ASB ASB::FromBinary(tcb::span<const u8> data) {
 }
 
 std::vector<u8> ASB::ToBinary() {
-  Header header{.magic = restbl::Magic,
+  Header header{.magic = asb::Magic,
                 .unknown_1 = m_unknown_1,
                 .unknown_2 = m_unknown_2,
                 .crc_table_num = static_cast<u32>(m_crc_table.size()),

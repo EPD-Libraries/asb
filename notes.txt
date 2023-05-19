@@ -4,4 +4,11 @@
 0x0C - Unkown
 File header bytes match up through 0x0B
 End of file appears to contain text array of entries in file separated by a null byte with 1 byte padding at the end
-address of entry array at 0x24; 4 bytes
+Address of entry array at 0x24; 4 bytes
+
+0x2F potentially opening bracket
+0x5C potentially matching closing bracket for 0x2F
+(see `assets/Player.root.asb_277-688.bin` for an example)
+
+0xFFFFFFFF Appears several times in the latter half of files. Potential group closure?
+0x2E After first ascii string in array at tail of file. Indicates file/actor class?

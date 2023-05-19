@@ -25,7 +25,7 @@ struct Header {
   u32 unknown_2;
   u32 crc_table_num;
   u32 name_table_num;
-} __attribute__((packed));
+};
 static_assert(sizeof(Header) == 0x16);
 
 struct HashEntry {
