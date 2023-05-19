@@ -23,8 +23,9 @@ struct Header {
   std::array<char, 4> magic;
   u32 unknown_1;
   u32 unknown_2;
-  u32 crc_table_num;
-  u32 name_table_num;
+  u32 unkown_3;
+  u32 unknown_4;
+  u16 entry_string_array;
 };
 static_assert(sizeof(Header) == 0x16);
 
