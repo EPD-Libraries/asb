@@ -12,7 +12,11 @@ undefined8 FUN_710074c860(byte **param_1,byte **param_2)
   uint uVar7;
   ulong uVar8;
   byte *__dest;
-  pbVar3 = *param_2; /* pbVar3 is the file reader/array of bytes contained in the file */
+  pbVar3 = *param_2; /* pbVar3 is a pointer to the file passed as param_2*/
+  /*
+    If file pointer is 0, set current position (uVar5) to 0 and continue
+    Else set uVar5 to the offset of the first null byte of data
+  */
   if ((pbVar3 == (byte *)0x0) || (*pbVar3 == 0)) {
     LAB_710074ca50:
     uVar5 = 0;
@@ -20,23 +24,33 @@ undefined8 FUN_710074c860(byte **param_1,byte **param_2)
   else {
     uVar5 = 0;
     do {
-      if (uVar5 == 0x400000) goto LAB_710074ca50; // Resets uVar5 to 0
-      if (pbVar3[uVar5 + 1] == 0) {
+      if (uVar5 == 0x400000) goto LAB_710074ca50; // Resets uVar5 to 0 if it reaches the offset 0x400000, presumably a fixed maximum size for the data.
+      if (pbVar3[uVar5 + 1] == 0) { // Moves the position of uVar5 over by a singular byte for an odd file alignment
         uVar5 = uVar5 + 1;
         break;
       }
+      // Otherwise, add two bytes, then check if the result is 0
       lVar2 = uVar5 + 2;
       uVar5 = uVar5 + 2;
     } while (pbVar3[lVar2] != 0);
     uVar5 = uVar5 & 0xffffffff; // Ensures uVar5 does not surpass maximum size
   }
+  // At this point, uVar5 should be set to the offset of the first null byte of the input file data
   iVar4 = -1;
+
+  /*
+    Read data from the byte before the current position until the previous byte has a value of 0x5c
+    Store the position of this byte into iVar4 as an int for later use
+    Additionally, update the offset referenced by uVar 5 to be the previous byte
+  */
   do {
     uVar8 = uVar5 - 1;
-    if ((long)uVar5 < 1) goto LAB_710074c8c8;
+    if ((long)uVar5 < 1) goto LAB_710074c8c8; // Prevents uVar5 from pointing to an of the file data that could be before the start of said data
     uVar5 = uVar8;
   } while (pbVar3[uVar8 & 0xffffffff] != 0x5c);
+
   iVar4 = (int)uVar8;
+
 LAB_710074c8c8:
   if ((pbVar3 == (byte *)0x0) || (*pbVar3 == 0)) {
 LAB_710074ca58:
@@ -45,7 +59,7 @@ LAB_710074ca58:
   else {
     uVar5 = 0;
     do {
-      if (uVar5 == 0x400000) goto LAB_710074ca58;
+      if (uVar5 == 0x400000) goto LAB_710074ca58; // If index surpasses maximum allocated memory, reset to 0
       if (pbVar3[uVar5 + 1] == 0) {
         uVar5 = uVar5 + 1;
         break;
@@ -53,23 +67,29 @@ LAB_710074ca58:
       lVar2 = uVar5 + 2;
       uVar5 = uVar5 + 2;
     } while (pbVar3[lVar2] != 0);
+
     uVar5 = uVar5 & 0xffffffff;
   }
   iVar6 = -1;
+
   do {
     uVar8 = uVar5 - 1;
     if ((long)uVar5 < 1) goto LAB_710074c920;
     uVar5 = uVar8;
   } while (pbVar3[uVar8 & 0xffffffff] != 0x2f);
+
   iVar6 = (int)uVar8;
+
 LAB_710074c920:
   if (iVar4 <= iVar6) {
     iVar4 = iVar6;
   }
   uVar1 = 0;
+
   if (-1 < iVar4) {
     uVar1 = iVar4 + 1;
   }
+
   if ((pbVar3 == (byte *)0x0) || (*pbVar3 == 0)) {
 LAB_710074ca60:
     uVar5 = 0;
@@ -87,6 +107,7 @@ LAB_710074ca60:
     } while (pbVar3[lVar2] != 0);
     uVar5 = uVar5 & 0xffffffff;
   }
+
   do {
     uVar8 = uVar5 - 1;
     if ((long)uVar5 < 1) {
@@ -95,6 +116,7 @@ LAB_710074ca60:
     }
     uVar5 = uVar8;
   } while (pbVar3[uVar8 & 0xffffffff] != 0x2e);
+
   uVar7 = (uint)uVar8;
   uVar5 = (ulong)(uVar7 & ((int)uVar7 >> 0x1f ^ 0xffffffffU));
   if (((int)uVar7 < 0) && (pbVar3 != (byte *)0x0)) {
