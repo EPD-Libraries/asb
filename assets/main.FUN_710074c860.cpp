@@ -1,5 +1,5 @@
 /*I believe that this function is in charge of loading and parsing data from the asb/ainb files*/
-
+// Might copy addresses of section open and close in bin file to a __dest address
 undefined8 FUN_710074c860(byte **param_1,byte **param_2)
 
 {
@@ -72,6 +72,11 @@ LAB_710074ca58:
   }
   iVar6 = -1;
 
+   /*
+    Read data from the byte before the current position until the previous byte has a value of 0x2f
+    Store the position of this byte into iVar6 as an int for later use
+    Additionally, update the offset referenced by uVar5 to be the previous byte
+  */
   do {
     uVar8 = uVar5 - 1;
     if ((long)uVar5 < 1) goto LAB_710074c920;
@@ -154,7 +159,7 @@ LAB_710074cabc:
   }
   pbVar3 = &DAT_7103776e54;
 LAB_710074c9d4:
-  __dest = *param_1;
+  __dest = *param_1; // Set the destination address to the address pointed to by param_1
   if (__dest != pbVar3) {
     uVar1 = (int)uVar5 - uVar1;
     uVar5 = (ulong)uVar1;

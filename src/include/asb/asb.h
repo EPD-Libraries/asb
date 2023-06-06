@@ -20,12 +20,12 @@ using Table = absl::btree_map<T, u32>;
 constexpr auto Magic = exio::util::MakeMagic("ASB ");
 
 struct Header {
-  std::array<char, 4> magic;
-  u32 unknown_1;
+  char magic[4];
+  u32 version;
   u32 unknown_2;
   u32 unkown_3;
   u32 unknown_4;
-  u16 entry_string_array;
+  u32 entry_string_array;
 };
 static_assert(sizeof(Header) == 0x16);
 
